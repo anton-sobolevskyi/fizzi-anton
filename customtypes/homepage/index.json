@@ -8,6 +8,9 @@
           "choices": {
             "hero": {
               "type": "SharedSlice"
+            },
+            "sky_dive": {
+              "type": "SharedSlice"
             }
           }
         },

@@ -1,0 +1,39 @@
+{
+  "description": "SkyDive",
+  "id": "sky_dive",
+  "name": "SkyDive",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/fizzi-anton/shared-slices/sky_dive/default/ba276a2ae36ebfe5c91f5f7f90f766cd0e864e80.png?auto=compress%2Cformat",
+      "name": "Default",
+      "primary": {
+        "sentence": {
+          "config": {
+            "label": "Sentence",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "flavor": {
+          "config": {
+            "label": "Flavor",
+            "options": [
+              "lemonLime",
+              "grape",
+              "blackCherry",
+              "strawberryLemonade",
+              "watermelon"
+            ],
+            "placeholder": ""
+          },
+          "type": "Select"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}
