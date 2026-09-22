@@ -1,0 +1,89 @@
+{
+  "description": "Hero",
+  "id": "hero",
+  "name": "Hero",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/fizzi-anton/shared-slices/hero/default/1d927fe3d4c147236856cecd8cf111839376ba84.png?auto=compress%2Cformat",
+      "name": "Default",
+      "primary": {
+        "heading": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Heading",
+            "placeholder": "",
+            "single": "heading1"
+          },
+          "type": "StructuredText"
+        },
+        "subheading": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Subheading",
+            "placeholder": "",
+            "single": "paragraph"
+          },
+          "type": "StructuredText"
+        },
+        "body": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Body",
+            "placeholder": "",
+            "single": "paragraph"
+          },
+          "type": "StructuredText"
+        },
+        "button_text": {
+          "config": {
+            "label": "Button Text",
+            "placeholder": ""
+          },
+          "type": "Text"
+        },
+        "button_link": {
+          "config": {
+            "allowTargetBlank": true,
+            "allowText": true,
+            "label": "Button Link",
+            "placeholder": "",
+            "repeat": false,
+            "select": null
+          },
+          "type": "Link"
+        },
+        "cans_image": {
+          "config": {
+            "constraint": {},
+            "label": "Cans Image",
+            "thumbnails": []
+          },
+          "type": "Image"
+        },
+        "second_heading": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Second Heading",
+            "placeholder": "",
+            "single": "heading2"
+          },
+          "type": "StructuredText"
+        },
+        "second_body": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Second Body",
+            "placeholder": "",
+            "single": "paragraph"
+          },
+          "type": "StructuredText"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

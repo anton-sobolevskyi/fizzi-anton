@@ -1,0 +1,9 @@
+{
+  "repositoryName": "fizzi-anton",
+  "routes": [
+    {
+      "type": "homepage",
+      "path": "/"
+    }
+  ]
+}
