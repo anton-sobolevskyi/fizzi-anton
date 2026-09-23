@@ -1,0 +1,36 @@
+{
+  "description": "Carousel",
+  "id": "carousel",
+  "name": "Carousel",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/fizzi-anton/shared-slices/carousel/default/f0d88644ad9630f45832e1a38c6c8225a041d4da.png?auto=compress%2Cformat",
+      "name": "Default",
+      "primary": {
+        "heading": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Heading",
+            "placeholder": "",
+            "single": "heading2"
+          },
+          "type": "StructuredText"
+        },
+        "price_copy": {
+          "config": {
+            "allowTargetBlank": false,
+            "label": "Price Copy",
+            "placeholder": "",
+            "single": "paragraph"
+          },
+          "type": "StructuredText"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}

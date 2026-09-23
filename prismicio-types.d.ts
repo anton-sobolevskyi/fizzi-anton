@@ -2,97 +2,107 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-
 type PickContentRelationshipFieldData<
-	TRelationship extends prismic.CustomTypeModelFetchCustomTypeLevel1 | prismic.CustomTypeModelFetchCustomTypeLevel2 | prismic.CustomTypeModelFetchGroupLevel1 | prismic.CustomTypeModelFetchGroupLevel2,
-	TData extends Record<string, prismic.AnyRegularField | prismic.GroupField | prismic.NestedGroupField | prismic.SliceZone>,
-	TLang extends string
-> = |
-	// Content relationship fields
-	{
-		[TSubRelationship in Extract<
-			TRelationship["fields"][number], prismic.CustomTypeModelFetchContentRelationshipLevel1
-		> as TSubRelationship["id"]]:
-			ContentRelationshipFieldWithData<TSubRelationship["customtypes"], TLang>;
-	} &
-	// Group
-	{
-		[TGroup in Extract<
-			TRelationship["fields"][number], prismic.CustomTypeModelFetchGroupLevel1 | prismic.CustomTypeModelFetchGroupLevel2
-		> as TGroup["id"]]:
-			TData[TGroup["id"]] extends prismic.GroupField<infer TGroupData>
-				? prismic.GroupField<PickContentRelationshipFieldData<TGroup, TGroupData, TLang>>
-				: never
-	} &
-	// Other fields
-	{
-		[TFieldKey in Extract<TRelationship["fields"][number], string>]:
-			TFieldKey extends keyof TData ? TData[TFieldKey] : never;
-	};
+  TRelationship extends
+    | prismic.CustomTypeModelFetchCustomTypeLevel1
+    | prismic.CustomTypeModelFetchCustomTypeLevel2
+    | prismic.CustomTypeModelFetchGroupLevel1
+    | prismic.CustomTypeModelFetchGroupLevel2,
+  TData extends Record<
+    string,
+    prismic.AnyRegularField | prismic.GroupField | prismic.NestedGroupField | prismic.SliceZone
+  >,
+  TLang extends string,
+> =
+  // Content relationship fields
+  {
+    [
+      TSubRelationship in Extract<
+        TRelationship["fields"][number],
+        prismic.CustomTypeModelFetchContentRelationshipLevel1
+      > as TSubRelationship["id"]
+    ]: ContentRelationshipFieldWithData<TSubRelationship["customtypes"], TLang>;
+  } & // Group
+  {
+    [
+      TGroup in Extract<
+        TRelationship["fields"][number],
+        prismic.CustomTypeModelFetchGroupLevel1 | prismic.CustomTypeModelFetchGroupLevel2
+      > as TGroup["id"]
+    ]: TData[TGroup["id"]] extends prismic.GroupField<infer TGroupData>
+      ? prismic.GroupField<PickContentRelationshipFieldData<TGroup, TGroupData, TLang>>
+      : never;
+  } & // Other fields
+  {
+    [TFieldKey in Extract<TRelationship["fields"][number], string>]: TFieldKey extends keyof TData
+      ? TData[TFieldKey]
+      : never;
+  };
 
 type ContentRelationshipFieldWithData<
-	TCustomType extends readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[] | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
-	TLang extends string = string
+  TCustomType extends
+    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
+    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
+  TLang extends string = string,
 > = {
-	[ID in Exclude<TCustomType[number], string>["id"]]:
-		prismic.ContentRelationshipField<
-			ID,
-			TLang,
-			PickContentRelationshipFieldData<
-				Extract<TCustomType[number], { id: ID }>,
-				Extract<prismic.Content.AllDocumentTypes, { type: ID }>["data"],
-				TLang
-			>
-		>
+  [ID in Exclude<TCustomType[number], string>["id"]]: prismic.ContentRelationshipField<
+    ID,
+    TLang,
+    PickContentRelationshipFieldData<
+      Extract<TCustomType[number], { id: ID }>,
+      Extract<prismic.Content.AllDocumentTypes, { type: ID }>["data"],
+      TLang
+    >
+  >;
 }[Exclude<TCustomType[number], string>["id"]];
 
-type HomepageDocumentDataSlicesSlice = HeroSlice | SkyDiveSlice
+type HomepageDocumentDataSlicesSlice = HeroSlice | SkyDiveSlice | CarouselSlice;
 
 /**
  * Content for Homepage documents
  */
 interface HomepageDocumentData {
-	/**
-	 * Slice Zone field in *Homepage*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: homepage.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/slices
-	 */
-	slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>;/**
-	 * Meta Title field in *Homepage*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: homepage.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_title: prismic.KeyTextField;
-	
-	/**
-	 * Meta Description field in *Homepage*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: homepage.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	meta_description: prismic.KeyTextField;
-	
-	/**
-	 * Meta Image field in *Homepage*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: homepage.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	meta_image: prismic.ImageField<never>;
+  /**
+   * Slice Zone field in *Homepage*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>; /**
+   * Meta Title field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: homepage.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Homepage*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: homepage.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Homepage*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
 }
 
 /**
@@ -104,93 +114,149 @@ interface HomepageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomepageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<HomepageDocumentData>, "homepage", Lang>;
+export type HomepageDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+  Simplify<HomepageDocumentData>,
+  "homepage",
+  Lang
+>;
 
 export type AllDocumentTypes = HomepageDocument;
+
+/**
+ * Primary content in *Carousel → Default → Primary*
+ */
+export interface CarouselSliceDefaultPrimary {
+  /**
+   * Heading field in *Carousel → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: carousel.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Price Copy field in *Carousel → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: carousel.default.primary.price_copy
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  price_copy: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Carousel Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CarouselSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<CarouselSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Carousel*
+ */
+type CarouselSliceVariation = CarouselSliceDefault;
+
+/**
+ * Carousel Shared Slice
+ *
+ * - **API ID**: `carousel`
+ * - **Description**: Carousel
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CarouselSlice = prismic.SharedSlice<"carousel", CarouselSliceVariation>;
 
 /**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
-	/**
-	 * Heading field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.heading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	heading: prismic.RichTextField;
-	
-	/**
-	 * Subheading field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.subheading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	subheading: prismic.RichTextField;
-	
-	/**
-	 * Body field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.body
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	body: prismic.RichTextField;
-	
-	/**
-	 * Button Text field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.button_text
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	button_text: prismic.KeyTextField;
-	
-	/**
-	 * Button Link field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.button_link
-	 * - **Documentation**: https://prismic.io/docs/fields/link
-	 */
-	button_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
-	
-	/**
-	 * Cans Image field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.cans_image
-	 * - **Documentation**: https://prismic.io/docs/fields/image
-	 */
-	cans_image: prismic.ImageField<never>;
-	
-	/**
-	 * Second Heading field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.second_heading
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	second_heading: prismic.RichTextField;
-	
-	/**
-	 * Second Body field in *Hero → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: hero.default.primary.second_body
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	second_body: prismic.RichTextField;
+  /**
+   * Heading field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Subheading field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.subheading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  subheading: prismic.RichTextField;
+
+  /**
+   * Body field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  body: prismic.RichTextField;
+
+  /**
+   * Button Text field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.button_text
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  button_text: prismic.KeyTextField;
+
+  /**
+   * Button Link field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.button_link
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  button_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+  /**
+   * Cans Image field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.cans_image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  cans_image: prismic.ImageField<never>;
+
+  /**
+   * Second Heading field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.second_heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  second_heading: prismic.RichTextField;
+
+  /**
+   * Second Body field in *Hero → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.second_body
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  second_body: prismic.RichTextField;
 }
 
 /**
@@ -200,12 +266,16 @@ export interface HeroSliceDefaultPrimary {
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slices
  */
-export type HeroSliceDefault = prismic.SharedSliceVariation<"default", Simplify<HeroSliceDefaultPrimary>, never>;
+export type HeroSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<HeroSliceDefaultPrimary>,
+  never
+>;
 
 /**
  * Slice variation for *Hero*
  */
-type HeroSliceVariation = HeroSliceDefault
+type HeroSliceVariation = HeroSliceDefault;
 
 /**
  * Hero Shared Slice
@@ -220,25 +290,27 @@ export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
  * Primary content in *SkyDive → Default → Primary*
  */
 export interface SkyDiveSliceDefaultPrimary {
-	/**
-	 * Sentence field in *SkyDive → Default → Primary*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: sky_dive.default.primary.sentence
-	 * - **Documentation**: https://prismic.io/docs/fields/text
-	 */
-	sentence: prismic.KeyTextField;
-	
-	/**
-	 * Flavor field in *SkyDive → Default → Primary*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: sky_dive.default.primary.flavor
-	 * - **Documentation**: https://prismic.io/docs/fields/select
-	 */
-	flavor: prismic.SelectField<"lemonLime" | "grape" | "blackCherry" | "strawberryLemonade" | "watermelon">;
+  /**
+   * Sentence field in *SkyDive → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sky_dive.default.primary.sentence
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  sentence: prismic.KeyTextField;
+
+  /**
+   * Flavor field in *SkyDive → Default → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sky_dive.default.primary.flavor
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  flavor: prismic.SelectField<
+    "lemonLime" | "grape" | "blackCherry" | "strawberryLemonade" | "watermelon"
+  >;
 }
 
 /**
@@ -248,12 +320,16 @@ export interface SkyDiveSliceDefaultPrimary {
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slices
  */
-export type SkyDiveSliceDefault = prismic.SharedSliceVariation<"default", Simplify<SkyDiveSliceDefaultPrimary>, never>;
+export type SkyDiveSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<SkyDiveSliceDefaultPrimary>,
+  never
+>;
 
 /**
  * Slice variation for *SkyDive*
  */
-type SkyDiveSliceVariation = SkyDiveSliceDefault
+type SkyDiveSliceVariation = SkyDiveSliceDefault;
 
 /**
  * SkyDive Shared Slice
@@ -265,32 +341,42 @@ type SkyDiveSliceVariation = SkyDiveSliceDefault
 export type SkyDiveSlice = prismic.SharedSlice<"sky_dive", SkyDiveSliceVariation>;
 
 declare module "@prismicio/client" {
-	interface CreateClient {
-		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
-	}
-	
-	interface CreateWriteClient {
-		(repositoryNameOrEndpoint: string, options: prismic.WriteClientConfig): prismic.WriteClient<AllDocumentTypes>;
-	}
-	
-	interface CreateMigration {
-		(): prismic.Migration<AllDocumentTypes>;
-	}
-	
-	namespace Content {
-		export type {
-			HomepageDocument,
-			HomepageDocumentData,
-			HomepageDocumentDataSlicesSlice,
-			AllDocumentTypes,
-			HeroSlice,
-			HeroSliceDefaultPrimary,
-			HeroSliceVariation,
-			HeroSliceDefault,
-			SkyDiveSlice,
-			SkyDiveSliceDefaultPrimary,
-			SkyDiveSliceVariation,
-			SkyDiveSliceDefault
-		}
-	}
+  interface CreateClient {
+    (
+      repositoryNameOrEndpoint: string,
+      options?: prismic.ClientConfig
+    ): prismic.Client<AllDocumentTypes>;
+  }
+
+  interface CreateWriteClient {
+    (
+      repositoryNameOrEndpoint: string,
+      options: prismic.WriteClientConfig
+    ): prismic.WriteClient<AllDocumentTypes>;
+  }
+
+  interface CreateMigration {
+    (): prismic.Migration<AllDocumentTypes>;
+  }
+
+  namespace Content {
+    export type {
+      HomepageDocument,
+      HomepageDocumentData,
+      HomepageDocumentDataSlicesSlice,
+      AllDocumentTypes,
+      CarouselSlice,
+      CarouselSliceDefaultPrimary,
+      CarouselSliceVariation,
+      CarouselSliceDefault,
+      HeroSlice,
+      HeroSliceDefaultPrimary,
+      HeroSliceVariation,
+      HeroSliceDefault,
+      SkyDiveSlice,
+      SkyDiveSliceDefaultPrimary,
+      SkyDiveSliceVariation,
+      SkyDiveSliceDefault,
+    };
+  }
 }

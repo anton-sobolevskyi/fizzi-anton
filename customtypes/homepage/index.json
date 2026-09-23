@@ -11,6 +11,9 @@
             },
             "sky_dive": {
               "type": "SharedSlice"
+            },
+            "carousel": {
+              "type": "SharedSlice"
             }
           }
         },
