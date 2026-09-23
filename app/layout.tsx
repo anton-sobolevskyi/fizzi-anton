@@ -3,6 +3,7 @@ import "./globals.css";
 
 import { Header } from "@/components/layout/Header";
 import { ViewCanvas } from "@/components/ui/ViewCanvas";
+import { Footer } from "@/components/layout/Footer";
 
 const alpino = localFont({
   src: "../public/fonts/Alpino-Variable.woff2",
@@ -16,7 +17,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={alpino.variable}>
       <body className="overflow-x-hidden bg-yellow-300">
         <Header />
-        {children}
+        <main>{children}</main>
+        <Footer />
         <ViewCanvas />
       </body>
     </html>
