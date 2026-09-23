@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useRef, useState } from "react";
-import { Content } from "@prismicio/client";
+import { asText, Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { SodaCanProps } from "@/components/ui/SodaCan";
 import { Center, Environment, View } from "@react-three/drei";
@@ -88,9 +88,7 @@ const Carousel: FC<CarouselProps> = ({ slice }) => {
       <div className="background pointer-events-none absolute inset-0 bg-[#710523] opacity-50" />
 
       <WavyCircles className="absolute top-1/2 left-1/2 h-[120vmin] -translate-x-1/2 -translate-y-1/2 text-[#710523]" />
-      <h2 className="relative text-center text-5xl font-bold">
-        <PrismicRichText field={slice.primary.heading} />
-      </h2>
+      <h2 className="relative text-center text-5xl font-bold">{asText(slice.primary.heading)}</h2>
 
       <div className="grid grid-cols-[auto_auto_auto] items-center">
         <ArrowButton

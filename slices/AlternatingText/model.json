@@ -1,0 +1,45 @@
+{
+  "description": "AlternatingText",
+  "id": "alternating_text",
+  "name": "AlternatingText",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/fizzi-anton/shared-slices/alternating_text/default/5eb123ca3a2a14e93392814ab4c77e53c6828629.png?auto=compress%2Cformat",
+      "name": "Default",
+      "primary": {
+        "text_group": {
+          "config": {
+            "fields": {
+              "heading": {
+                "config": {
+                  "allowTargetBlank": false,
+                  "label": "Heading",
+                  "placeholder": "",
+                  "single": "heading2"
+                },
+                "type": "StructuredText"
+              },
+              "body": {
+                "config": {
+                  "allowTargetBlank": false,
+                  "label": "Body",
+                  "multi": "paragraph,strong,em",
+                  "placeholder": ""
+                },
+                "type": "StructuredText"
+              }
+            },
+            "label": "Text Group",
+            "repeat": true
+          },
+          "type": "Group"
+        }
+      },
+      "version": "initial"
+    }
+  ]
+}
