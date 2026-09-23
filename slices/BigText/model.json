@@ -1,0 +1,16 @@
+{
+  "description": "BigText",
+  "id": "big_text",
+  "name": "BigText",
+  "type": "SharedSlice",
+  "variations": [
+    {
+      "description": "Default",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/fizzi-anton/shared-slices/big_text/default/aa5977fbc0ac513a75bdc34f34603c57a86a9c13.png?auto=compress%2Cformat",
+      "name": "Default",
+      "version": "initial"
+    }
+  ]
+}

@@ -57,7 +57,7 @@ type ContentRelationshipFieldWithData<
 }[Exclude<TCustomType[number], string>["id"]];
 
 type HomepageDocumentDataSlicesSlice =
-  HeroSlice | SkyDiveSlice | CarouselSlice | AlternatingTextSlice;
+  HeroSlice | SkyDiveSlice | CarouselSlice | AlternatingTextSlice | BigTextSlice;
 
 /**
  * Content for Homepage documents
@@ -192,6 +192,33 @@ export type AlternatingTextSlice = prismic.SharedSlice<
   "alternating_text",
   AlternatingTextSliceVariation
 >;
+
+/**
+ * Default variation for BigText Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type BigTextSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *BigText*
+ */
+type BigTextSliceVariation = BigTextSliceDefault;
+
+/**
+ * BigText Shared Slice
+ *
+ * - **API ID**: `big_text`
+ * - **Description**: BigText
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type BigTextSlice = prismic.SharedSlice<"big_text", BigTextSliceVariation>;
 
 /**
  * Primary content in *Carousel → Default → Primary*
@@ -441,6 +468,9 @@ declare module "@prismicio/client" {
       AlternatingTextSliceDefaultPrimary,
       AlternatingTextSliceVariation,
       AlternatingTextSliceDefault,
+      BigTextSlice,
+      BigTextSliceVariation,
+      BigTextSliceDefault,
       CarouselSlice,
       CarouselSliceDefaultPrimary,
       CarouselSliceVariation,

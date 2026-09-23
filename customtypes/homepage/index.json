@@ -17,6 +17,9 @@
             },
             "alternating_text": {
               "type": "SharedSlice"
+            },
+            "big_text": {
+              "type": "SharedSlice"
             }
           }
         },
