@@ -1,9 +1,9 @@
 "use client";
 
 import { FC } from "react";
-import { asText, Content } from "@prismicio/client";
+import { asText, Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import { PrismicNextImage } from "@prismicio/next";
+import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { Bounded } from "@/components/layout/Bounded";
 import { Button } from "@/components/ui/Button";
 import { TextSplitter } from "@/components/ui/TextSplitter";
@@ -14,6 +14,7 @@ import { View } from "@react-three/drei";
 import { Scene } from "./Scene";
 import { Bubbles } from "./Bubbles";
 import { useStore } from "@/hooks/useStore";
+import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -127,11 +128,27 @@ const Hero: FC<HeroProps> = ({ slice }) => {
               <PrismicRichText field={slice.primary.body} />
             </div>
 
-            <Button
-              buttonLink={slice.primary.button_link}
-              buttonText={slice.primary.button_text}
-              className="hero-button mt-12"
-            />
+            {isFilled.link(slice.primary.button_link) && "filled"}
+
+            {isFilled.link(slice.primary.button_link) ? (
+              <PrismicNextLink
+                field={slice.primary.button_link}
+                className={cn(
+                  "rounded-xl bg-orange-600 px-5 py-4 text-center text-xl font-bold tracking-wide uppercase transition-colors duration-150 hover:bg-orange-700 md:text-2xl",
+                  "hero-button mt-12"
+                )}
+              ></PrismicNextLink>
+            ) : (
+              <a
+                href={"#flavors"}
+                className={cn(
+                  "rounded-xl bg-orange-600 px-5 py-4 text-center text-xl font-bold tracking-wide uppercase transition-colors duration-150 hover:bg-orange-700 md:text-2xl",
+                  "hero-button mt-12"
+                )}
+              >
+                {slice.primary.button_link.text}
+              </a>
+            )}
           </div>
         </div>
 

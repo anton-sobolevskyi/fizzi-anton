@@ -105,7 +105,7 @@ export const Scene = (props: SceneProps) => {
           trigger: ".skydive",
           pin: true,
           start: "top top",
-          end: "+=2000",
+          end: "+=1200",
           scrub: 1.5,
         },
       });

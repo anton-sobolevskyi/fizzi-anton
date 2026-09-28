@@ -56,6 +56,70 @@ type ContentRelationshipFieldWithData<
   >;
 }[Exclude<TCustomType[number], string>["id"]];
 
+type FlavorDocumentDataSlicesSlice = CarouselSlice;
+
+/**
+ * Content for Flavor documents
+ */
+interface FlavorDocumentData {
+  /**
+   * Slice Zone field in *Flavor*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: flavor.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/slices
+   */
+  slices: prismic.SliceZone<FlavorDocumentDataSlicesSlice>; /**
+   * Meta Title field in *Flavor*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: flavor.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Flavor*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: flavor.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Flavor*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: flavor.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Flavor document from Prismic
+ *
+ * - **API ID**: `flavor`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type FlavorDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+  Simplify<FlavorDocumentData>,
+  "flavor",
+  Lang
+>;
+
 type HomepageDocumentDataSlicesSlice =
   HeroSlice | SkyDiveSlice | CarouselSlice | AlternatingTextSlice | BigTextSlice;
 
@@ -121,7 +185,7 @@ export type HomepageDocument<Lang extends string = string> = prismic.PrismicDocu
   Lang
 >;
 
-export type AllDocumentTypes = HomepageDocument;
+export type AllDocumentTypes = FlavorDocument | HomepageDocument;
 
 /**
  * Item in *AlternatingText → Default → Primary → Text Group*
@@ -459,6 +523,9 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      FlavorDocument,
+      FlavorDocumentData,
+      FlavorDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,

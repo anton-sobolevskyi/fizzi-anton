@@ -2,6 +2,10 @@
   "repositoryName": "fizzi-anton",
   "routes": [
     {
+      "type": "flavor",
+      "path": "/flavor/:uid"
+    },
+    {
       "type": "homepage",
       "path": "/"
     }

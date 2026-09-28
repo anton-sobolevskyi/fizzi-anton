@@ -15,9 +15,9 @@ const alpino = localFont({
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={alpino.variable}>
-      <body className="overflow-x-hidden bg-yellow-300">
+      <body className="flex min-h-screen flex-col overflow-x-hidden bg-yellow-300">
         <Header />
-        <main>{children}</main>
+        <main className={"grow"}>{children}</main>
         <Footer />
         <ViewCanvas />
       </body>

@@ -15,7 +15,7 @@ export const FizziLogo = (props: FizziLogoProps) => {
       className={cn("group", props.className)}
       aria-labelledby="fizzi-logo-title"
     >
-      <title id="fizzi-logo-title">Fizzi</title>
+      <title>Fizzi</title>
       <g clipPath="url(#clip0_342_66)">
         <mask
           id="mask0_342_66"
