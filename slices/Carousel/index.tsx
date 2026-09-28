@@ -1,37 +1,21 @@
 "use client";
 
-import { FC, useRef, useState } from "react";
+import { FC, Suspense, useState } from "react";
 import { asText, Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
-import { SodaCanProps } from "@/components/ui/SodaCan";
-import { Center, Environment, View } from "@react-three/drei";
-import { FloatingCan } from "@/components/ui/FloatingCan";
 import { ArrowIcon } from "./ArrowIcon";
 import { cn } from "@/lib/utils";
 import { WavyCircles } from "./WavyCircle";
-import { Group } from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { FLAVORS } from "@/slices/Carousel/constants";
+import dynamic from "next/dynamic";
+
+const Scene = dynamic(() => import("./Scene"), {
+  ssr: false,
+});
 
 gsap.registerPlugin(useGSAP);
-
-const SPINS_ON_CHANGE = 8;
-
-const FLAVORS: {
-  flavor: SodaCanProps["flavor"];
-  color: string;
-  name: string;
-}[] = [
-  { flavor: "blackCherry", color: "#710523", name: "Black Cherry" },
-  { flavor: "grape", color: "#572981", name: "Grape Goodness" },
-  { flavor: "lemonLime", color: "#164405", name: "Lemon Lime" },
-  {
-    flavor: "strawberryLemonade",
-    color: "#690B3D",
-    name: "Strawberry Lemonade",
-  },
-  { flavor: "watermelon", color: "#4B7002", name: "Watermelon Crush" },
-];
 
 /**
  * Props for `Carousel`.
@@ -43,37 +27,25 @@ export type CarouselProps = SliceComponentProps<Content.CarouselSlice>;
  */
 const Carousel: FC<CarouselProps> = ({ slice }) => {
   const [currentFlavorIndex, setCurrentFlavorIndex] = useState(0);
-
-  const sodaCanRef = useRef<Group>(null);
+  const [nextFlavorIndex, setNextFlavorIndex] = useState(0);
 
   function changeFlavor(index: number) {
-    if (!sodaCanRef.current) return;
     const nextIndex = (index + FLAVORS.length) % FLAVORS.length;
 
     const tl = gsap.timeline();
 
+    setNextFlavorIndex(nextIndex);
+
     tl.to(
-      sodaCanRef.current.rotation,
+      ".background, .wavy-circles-outer, .wavy-circle-inner",
       {
-        y:
-          index > currentFlavorIndex
-            ? `-=${Math.PI * 2 * SPINS_ON_CHANGE}`
-            : `+=${Math.PI * 2 * SPINS_ON_CHANGE}`,
+        backgroundColor: FLAVORS[nextIndex].color,
+        fill: FLAVORS[nextIndex].color,
         ease: "power2.inOut",
         duration: 1,
       },
       0
     )
-      .to(
-        ".background, .wavy-circles-outer, .wavy-circle-inner",
-        {
-          backgroundColor: FLAVORS[nextIndex].color,
-          fill: FLAVORS[nextIndex].color,
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        0
-      )
       .to(".text-wrapper", { duration: 0.2, y: -10, opacity: 0 }, 0)
       .to({}, { onStart: () => setCurrentFlavorIndex(nextIndex) }, 0.5)
       .to(".text-wrapper", { duration: 0.2, y: 0, opacity: 1 }, 0.7);
@@ -97,23 +69,12 @@ const Carousel: FC<CarouselProps> = ({ slice }) => {
           label="Previous Flavor"
           onClick={() => changeFlavor(currentFlavorIndex - 1)}
         />
-        <View className="aspect-square h-[70vmin] min-h-40">
-          <Center position={[0, 0, 0]}>
-            <FloatingCan
-              ref={sodaCanRef}
-              flavor={FLAVORS[currentFlavorIndex].flavor}
-              floatIntensity={0.3}
-              rotationIntensity={1}
-            />
-          </Center>
+        <div className={"z-1000 aspect-square h-[70vmin] min-h-40"}>
+          <Suspense fallback={null}>
+            <Scene flavorIndex={nextFlavorIndex} />
+          </Suspense>
+        </div>
 
-          <Environment
-            files="/hdr/lobby.hdr"
-            environmentIntensity={0.6}
-            environmentRotation={[0, 3, 0]}
-          />
-          <directionalLight intensity={6} position={[0, 1, 1]} />
-        </View>
         <ArrowButton
           direction="right"
           label="Next Flavor"

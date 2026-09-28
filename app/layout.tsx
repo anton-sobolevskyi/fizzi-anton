@@ -19,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         <main className={"grow"}>{children}</main>
         <Footer />
-        <ViewCanvas />
+        {/*<ViewCanvas />*/}
       </body>
     </html>
   );
