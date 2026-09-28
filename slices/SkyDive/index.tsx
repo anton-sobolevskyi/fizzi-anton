@@ -1,11 +1,14 @@
 "use client";
 
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import { Bounded } from "@/components/layout/Bounded";
-import { Scene } from "./Scene";
-import { View } from "@react-three/drei";
+import dynamic from "next/dynamic";
+
+const Scene = dynamic(() => import("./Scene"), {
+  ssr: false,
+});
 
 /**
  * Props for `SkyDive`.
@@ -23,9 +26,11 @@ const SkyDive: FC<SkyDiveProps> = ({ slice }) => {
       className="skydive -mt-28 h-screen"
     >
       <h2 className="sr-only">{slice.primary.sentence}</h2>
-      <View className="h-screen w-screen">
-        <Scene flavor={slice.primary.flavor ?? "blackCherry"} sentence={slice.primary.sentence} />
-      </View>
+      <div className="h-screen w-screen">
+        <Suspense fallback={null}>
+          <Scene flavor={slice.primary.flavor ?? "blackCherry"} sentence={slice.primary.sentence} />
+        </Suspense>
+      </div>
     </Bounded>
   );
 };
