@@ -49,11 +49,9 @@ export const Scene = (props: SceneProps) => {
       )
         return;
 
-      const { isDesktop } = context.conditions ?? {};
+      const { isDesktop, isMobile } = context.conditions ?? {};
 
       const ANGLE = (isDesktop ? -75 : -90) * (Math.PI / 180);
-
-      console.log(ANGLE);
 
       const getXPosition = (distance: number) => distance * Math.cos(ANGLE);
       const getYPosition = (distance: number) => distance * Math.sin(ANGLE);
@@ -69,9 +67,12 @@ export const Scene = (props: SceneProps) => {
         wordsRef.current.children.map((word) => word.position),
         { ...getXYPositions(7), z: 2 }
       );
-      gsap.set(wordsRef.current.position, {
-        z: -12,
-      });
+
+      if (isMobile) {
+        gsap.set(wordsRef.current.position, {
+          z: -7,
+        });
+      }
 
       gsap.to(canRef.current.rotation, { y: Math.PI * 2, repeat: -1, duration: 1.7, ease: "none" });
 
