@@ -62,7 +62,7 @@ export const Scene = (props: SceneProps) => {
       });
 
       gsap.set(cloudsRef.current.position, { z: 10 });
-      gsap.set(canRef.current.position, { ...getXYPositions(-4) });
+      gsap.set(canRef.current.position, { ...getXYPositions(-4), z: isMobile ? -3 : 0 });
       gsap.set(
         wordsRef.current.children.map((word) => word.position),
         { ...getXYPositions(7), z: 2 }
