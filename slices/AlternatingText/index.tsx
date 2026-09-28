@@ -26,7 +26,7 @@ const AlternatingText: FC<AlternatingTextProps> = ({ slice }) => {
       className="alternating-text-container relative bg-yellow-300 text-sky-950"
     >
       <div>
-        <div className="relative grid">
+        <div className="grid">
           {isDesktop && (
             <View className="alternating-text-view absolute top-0 left-0 h-screen w-full">
               <Scene />
@@ -36,17 +36,11 @@ const AlternatingText: FC<AlternatingTextProps> = ({ slice }) => {
           {slice.primary.text_group.map((item, index) => (
             <div
               key={asText(item.heading)}
-              className="alternating-section ap-x-12 grid h-screen place-items-center md:grid-cols-2"
+              className="alternating-section grid h-screen place-items-center gap-x-12 md:grid-cols-2"
             >
               <div className={index % 2 === 0 ? "col-start-1" : "md:col-start-2"}>
-                <h2 className="text-6xl font-bold text-balance">
-                  {/* <PrismicRichText field={item.heading} /> */}
-                  {asText(item.heading)}
-                </h2>
-                <p className="mt-4 text-xl">
-                  {asText(item.body)}
-                  {/* <PrismicRichText field={item.body} /> */}
-                </p>
+                <h2 className="text-6xl font-bold text-balance">{asText(item.heading)}</h2>
+                <p className="mt-4 text-xl">{asText(item.body)}</p>
               </div>
             </div>
           ))}

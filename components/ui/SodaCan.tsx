@@ -29,14 +29,8 @@ export function SodaCan({ flavor = "blackCherry", scale = 2, ...props }: SodaCan
 
   const labels = useTexture(flavorTextures);
 
-  // Fixes upside down labels
-  //   labels.strawberryLemonade.flipY = false;
-  //   labels.blackCherry.flipY = false;
-  //   labels.watermelon.flipY = false;
-  //   labels.grape.flipY = false;
-  //   labels.lemonLime.flipY = false;
-
-  const label = labels[flavor];
+  const label = labels[flavor].clone();
+  label.flipY = false;
 
   return (
     <group {...props} dispose={null} scale={scale} rotation={[0, -Math.PI, 0]}>
