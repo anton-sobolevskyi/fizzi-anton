@@ -66,7 +66,7 @@ export function Bubbles({
     }
 
     // Assign current body color to bubble so it looks natural
-    material.color = new THREE.Color(document.body.style.backgroundColor);
+    // material.color = new THREE.Color(document.body.style.backgroundColor);
 
     for (let i = 0; i < count; i++) {
       meshRef.current.getMatrixAt(i, o.matrix);
