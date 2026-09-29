@@ -24,7 +24,7 @@ const Hero: FC<HeroProps> = ({ slice }) => {
     <Bounded
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="hero md:opacity-0"
+      className="hero"
     >
       <div className="hero-scene pointer-events-none sticky top-0 z-50 mt-[-100vh] hidden h-screen w-screen md:block">
         <Suspense fallback={null}>
