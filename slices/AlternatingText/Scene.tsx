@@ -3,16 +3,22 @@
 import { FloatingCan } from "@/components/ui/FloatingCan";
 import { Environment } from "@react-three/drei";
 import { useRef } from "react";
-import { Group } from "three";
 import gsap from "gsap";
 import scrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { Canvas } from "@react-three/fiber";
+import { asText, Content } from "@prismicio/client";
+import { cn } from "@/lib/utils";
+import { Group } from "three";
+import { Bounded } from "@/components/layout/Bounded";
 
 gsap.registerPlugin(useGSAP, scrollTrigger);
 
-type Props = {};
+type Props = {
+  groups: Content.AlternatingTextSliceDefaultPrimaryTextGroupItem[];
+};
 
-function Scene({}: Props) {
+const Scene = (props: Props) => {
   const canRef = useRef<Group>(null);
 
   const bgColors = [
@@ -22,7 +28,10 @@ function Scene({}: Props) {
   ];
 
   useGSAP(() => {
+    console.log(canRef.current);
     if (!canRef.current) return;
+
+    console.log(canRef.current);
 
     const mm = gsap.matchMedia();
     const sections = gsap.utils.toArray(".alternating-section");
@@ -86,12 +95,37 @@ function Scene({}: Props) {
       }
     );
   });
+
   return (
-    <group ref={canRef}>
-      <FloatingCan flavor="strawberryLemonade" />
-      <Environment files="/hdr/lobby.hdr" environmentIntensity={1.5} />
-    </group>
+    <Bounded className={"alternating-text-container relative bg-yellow-300 text-sky-950"}>
+      <div className="alternating-text-view absolute h-screen w-full">
+        <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ fov: 30 }}>
+          <group ref={canRef}>
+            <FloatingCan flavor="strawberryLemonade" />
+            <Environment files="/hdr/lobby.hdr" environmentIntensity={1.5} />
+          </group>
+        </Canvas>
+      </div>
+
+      {props.groups.map((item, index) => (
+        <div
+          key={asText(item.heading)}
+          className="alternating-section relative z-100 grid h-screen place-items-center gap-x-12 md:grid-cols-2"
+        >
+          <div className={cn("relative", index % 2 === 0 ? "col-start-1" : "md:col-start-2")}>
+            <h2 className="text-6xl font-bold text-balance">{asText(item.heading)}</h2>
+            <p className="mt-4 text-xl">{asText(item.body)}</p>
+
+            <div
+              className={
+                "absolute top-0 left-0 -z-1 box-content h-full w-full -translate-8 rounded-2xl bg-white/90 p-8 blur-lg md:hidden"
+              }
+            ></div>
+          </div>
+        </div>
+      ))}
+    </Bounded>
   );
-}
+};
 
 export default Scene;

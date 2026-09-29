@@ -1,9 +1,8 @@
 "use client";
 
+import { memo } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-
-useGLTF.preload("/Soda-can.gltf");
 
 const flavorTextures = {
   lemonLime: "/labels/lemon-lime.png",
@@ -24,7 +23,11 @@ export type SodaCanProps = {
   scale?: number;
 };
 
-export function SodaCan({ flavor = "blackCherry", scale = 2, ...props }: SodaCanProps) {
+export const SodaCan = memo(function SodaCan({
+  flavor = "blackCherry",
+  scale = 2,
+  ...props
+}: SodaCanProps) {
   const { nodes } = useGLTF("/Soda-can.gltf");
 
   const labels = useTexture(flavorTextures);
@@ -33,7 +36,7 @@ export function SodaCan({ flavor = "blackCherry", scale = 2, ...props }: SodaCan
   label.flipY = false;
 
   return (
-    <group {...props} dispose={null} scale={scale} rotation={[0, -Math.PI, 0]}>
+    <group {...props} scale={scale} rotation={[0, -Math.PI, 0]}>
       <mesh
         castShadow
         receiveShadow
@@ -51,4 +54,4 @@ export function SodaCan({ flavor = "blackCherry", scale = 2, ...props }: SodaCan
       />
     </group>
   );
-}
+});
