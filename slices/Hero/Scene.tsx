@@ -8,11 +8,13 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useStore } from "@/hooks/useStore";
+import { Bubbles } from "@/slices/Hero/Bubbles";
+import { Canvas } from "@react-three/fiber";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 type Props = {};
 
-export const Scene = (props: Props) => {
+const Scene = (props: Props) => {
   const isReady = useStore((state) => state.isReady);
 
   const can1Ref = useRef<Group>(null);
@@ -91,22 +93,27 @@ export const Scene = (props: Props) => {
   });
 
   return (
-    <group ref={groupRef}>
-      <group ref={can1GroupRef}>
-        <FloatingCan ref={can1Ref} flavor="blackCherry" floatSpeed={FLOAT_SPEED} />
+    <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ fov: 30 }}>
+      <group ref={groupRef}>
+        <group ref={can1GroupRef}>
+          <FloatingCan ref={can1Ref} flavor="blackCherry" floatSpeed={FLOAT_SPEED} />
+        </group>
+
+        <group ref={can2GroupRef}>
+          <FloatingCan ref={can2Ref} flavor="lemonLime" floatSpeed={FLOAT_SPEED} />
+        </group>
+
+        <FloatingCan ref={can3Ref} flavor="grape" floatSpeed={FLOAT_SPEED} />
+
+        <FloatingCan ref={can4Ref} flavor="strawberryLemonade" floatSpeed={FLOAT_SPEED} />
+
+        <FloatingCan ref={can5Ref} flavor="watermelon" floatSpeed={FLOAT_SPEED} />
+
+        <Environment files="/hdr/lobby.hdr" environmentIntensity={1.5} />
       </group>
-
-      <group ref={can2GroupRef}>
-        <FloatingCan ref={can2Ref} flavor="lemonLime" floatSpeed={FLOAT_SPEED} />
-      </group>
-
-      <FloatingCan ref={can3Ref} flavor="grape" floatSpeed={FLOAT_SPEED} />
-
-      <FloatingCan ref={can4Ref} flavor="strawberryLemonade" floatSpeed={FLOAT_SPEED} />
-
-      <FloatingCan ref={can5Ref} flavor="watermelon" floatSpeed={FLOAT_SPEED} />
-
-      <Environment files="/hdr/lobby.hdr" environmentIntensity={1.5} />
-    </group>
+      <Bubbles count={300} speed={2} repeat={true} />
+    </Canvas>
   );
 };
+
+export default Scene;

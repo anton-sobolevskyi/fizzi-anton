@@ -1,20 +1,19 @@
 "use client";
 
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { asText, Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { Bounded } from "@/components/layout/Bounded";
-import { Button } from "@/components/ui/Button";
 import { TextSplitter } from "@/components/ui/TextSplitter";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { View } from "@react-three/drei";
-import { Scene } from "./Scene";
-import { Bubbles } from "./Bubbles";
 import { useStore } from "@/hooks/useStore";
 import { cn } from "@/lib/utils";
+import dynamic from "next/dynamic";
+
+const Scene = dynamic(() => import("./Scene"), { ssr: false });
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -105,10 +104,11 @@ const Hero: FC<HeroProps> = ({ slice }) => {
       data-slice-variation={slice.variation}
       className="hero md:opacity-0"
     >
-      <View className="hero-scene pointer-events-none sticky top-0 z-50 mt-[-100vh] hidden h-screen w-screen md:block">
-        <Scene />
-        <Bubbles count={300} speed={2} repeat={true} />
-      </View>
+      <div className="hero-scene pointer-events-none sticky top-0 z-50 mt-[-100vh] hidden h-screen w-screen md:block">
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
+      </div>
 
       <div className="grid">
         <div className="grid h-screen place-items-center">
