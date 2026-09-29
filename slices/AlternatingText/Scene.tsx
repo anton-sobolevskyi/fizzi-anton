@@ -56,12 +56,12 @@ const Scene = (props: Props) => {
 
         const scrollTl = gsap.timeline({
           scrollTrigger: {
-            trigger: ".alternating-text-view",
-            endTrigger: ".alternating-text-container",
-            pin: true,
+            trigger: ".alternating-text-container",
+            // endTrigger: '.end-trigger',
+            // pin: true,
             start: "top top",
             end: "bottom bottom",
-            scrub: true,
+            scrub: 1.5,
           },
         });
 
@@ -97,10 +97,8 @@ const Scene = (props: Props) => {
   });
 
   return (
-    <Bounded
-      className={"alternating-text-container relative overflow-hidden bg-yellow-300 text-sky-950"}
-    >
-      <div className="alternating-text-view absolute h-screen w-full">
+    <Bounded className={"alternating-text-container relative bg-yellow-300 text-sky-950"}>
+      <div className="sticky top-0 h-screen w-full bg-red-200">
         <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ fov: 30 }}>
           <group ref={canRef}>
             <FloatingCan flavor="strawberryLemonade" />
@@ -109,23 +107,25 @@ const Scene = (props: Props) => {
         </Canvas>
       </div>
 
-      {props.groups.map((item, index) => (
-        <div
-          key={asText(item.heading)}
-          className="alternating-section relative z-100 grid h-screen place-items-center gap-x-12 md:grid-cols-2"
-        >
-          <div className={cn("relative", index % 2 === 0 ? "col-start-1" : "md:col-start-2")}>
-            <h2 className="text-6xl font-bold text-balance">{asText(item.heading)}</h2>
-            <p className="mt-4 text-xl">{asText(item.body)}</p>
+      <div className={"-mx-4 mt-[-100vh] overflow-hidden px-4"}>
+        {props.groups.map((item, index) => (
+          <div
+            key={asText(item.heading)}
+            className="alternating-section relative z-100 grid h-screen place-items-center gap-x-12 md:grid-cols-2"
+          >
+            <div className={cn("relative", index % 2 === 0 ? "col-start-1" : "md:col-start-2")}>
+              <h2 className="text-6xl font-bold text-balance">{asText(item.heading)}</h2>
+              <p className="mt-4 text-xl">{asText(item.body)}</p>
 
-            <div
-              className={
-                "absolute top-0 left-0 -z-1 box-content h-full w-full -translate-8 rounded-2xl bg-white/90 p-8 blur-lg md:hidden"
-              }
-            ></div>
+              <div
+                className={
+                  "absolute top-0 left-0 -z-1 box-content h-full w-full -translate-8 rounded-2xl bg-white/90 p-8 blur-lg md:hidden"
+                }
+              ></div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </Bounded>
   );
 };

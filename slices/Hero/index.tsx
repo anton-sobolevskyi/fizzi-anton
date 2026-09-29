@@ -32,7 +32,7 @@ const Hero: FC<HeroProps> = ({ slice }) => {
         </Suspense>
       </div>
 
-      <div className="grid">
+      <div className="z-100 grid">
         <div className="grid h-[80dvh] place-items-center">
           <div className="grid auto-rows-min place-items-center text-center">
             <h1 className="hero-header text-7xl leading-[.8] font-black text-orange-500 uppercase md:text-[9rem] lg:text-[13rem]">
