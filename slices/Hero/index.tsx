@@ -153,7 +153,12 @@ const Hero: FC<HeroProps> = ({ slice }) => {
         </div>
 
         <div className="text-side relative z-80 grid h-screen items-center gap-4 md:grid-cols-2">
-          <PrismicNextImage className="w-full md:hidden" field={slice.primary.cans_image} />
+          <PrismicNextImage
+            sizes="(min-width: 768px) 0px, 100vw"
+            preload
+            className="w-full md:hidden"
+            field={slice.primary.cans_image}
+          />
 
           <div>
             <h2 className="text-side-heading text-6xl font-black text-balance text-sky-950 uppercase lg:text-8xl">
