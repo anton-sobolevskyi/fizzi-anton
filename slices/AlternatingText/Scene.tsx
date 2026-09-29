@@ -98,7 +98,7 @@ const Scene = (props: Props) => {
 
   return (
     <Bounded className={"alternating-text-container relative bg-yellow-300 text-sky-950"}>
-      <div className="sticky top-0 h-screen w-full bg-red-200">
+      <div className="sticky top-0 h-screen w-full">
         <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ fov: 30 }}>
           <group ref={canRef}>
             <FloatingCan flavor="strawberryLemonade" />
