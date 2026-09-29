@@ -6,16 +6,10 @@ import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
 import { Bounded } from "@/components/layout/Bounded";
 import { TextSplitter } from "@/components/ui/TextSplitter";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useStore } from "@/hooks/useStore";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
 const Scene = dynamic(() => import("./Scene"), { ssr: false });
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
  * Props for `Hero`.
@@ -26,78 +20,6 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  * Component for "Hero" Slices.
  */
 const Hero: FC<HeroProps> = ({ slice }) => {
-  const ready = useStore((state) => state.ready);
-
-  useGSAP(
-    () => {
-      if (!ready) return;
-
-      const mm = gsap.matchMedia();
-
-      mm.add("(min-width: 768px)", () => {
-        const introTl = gsap.timeline();
-
-        introTl
-          .set(".hero", { opacity: 1 })
-          .from(".hero-header-word", {
-            scale: 3,
-            opacity: 0,
-            ease: "power4.in",
-            delay: 0.3,
-            stagger: 1,
-          })
-          .from(
-            ".hero-subheading",
-            {
-              y: 30,
-              opacity: 0,
-            },
-            "+=.8"
-          )
-          .from(".hero-body", {
-            y: 10,
-            opacity: 0,
-          })
-          .from(".hero-button", {
-            y: 10,
-            opacity: 0,
-            duration: 0.6,
-          });
-
-        const scrollTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: 1.5,
-          },
-        });
-
-        scrollTl
-          .fromTo(
-            "body",
-            { backgroundColor: "hsl(50.44, 97.85%, 63.53%)" },
-            { backgroundColor: "hsl(80.87, 88.46%, 79.61%)", overwrite: "auto" },
-            1
-          )
-          .from(".text-side-heading .split-char", {
-            scale: 1.3,
-            y: 40,
-            rotate: -25,
-            opacity: 0,
-            stagger: 0.1,
-            ease: "back.out(3)",
-            duration: 0.5,
-          })
-          .from(".text-side-body", {
-            y: 20,
-            opacity: 0,
-          });
-      });
-    },
-    { dependencies: [ready] }
-  );
-
   return (
     <Bounded
       data-slice-type={slice.slice_type}
@@ -111,7 +33,7 @@ const Hero: FC<HeroProps> = ({ slice }) => {
       </div>
 
       <div className="grid">
-        <div className="grid h-screen place-items-center">
+        <div className="grid h-[80dvh] place-items-center">
           <div className="grid auto-rows-min place-items-center text-center">
             <h1 className="hero-header text-7xl leading-[.8] font-black text-orange-500 uppercase md:text-[9rem] lg:text-[13rem]">
               <TextSplitter

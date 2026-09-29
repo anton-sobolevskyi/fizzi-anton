@@ -97,7 +97,9 @@ const Scene = (props: Props) => {
   });
 
   return (
-    <Bounded className={"alternating-text-container relative bg-yellow-300 text-sky-950"}>
+    <Bounded
+      className={"alternating-text-container relative overflow-hidden bg-yellow-300 text-sky-950"}
+    >
       <div className="alternating-text-view absolute h-screen w-full">
         <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true }} camera={{ fov: 30 }}>
           <group ref={canRef}>
